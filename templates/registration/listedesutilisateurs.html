@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+ {% block Content %}
+<div class='row'>
+	<div class='col-sm-12'>
+		<div class='card'>
+			<div class='card-body'>
+				<div class='h6'>Liste des utilisateurs</div>
+				<hr>
+
+				<div class='table-responsive'>
+
+					<table class='datatable table table-striped table-sm' id='example'>
+					</div>
+						<thead class='thead-light'>
+							<tr>
+								<th hidden >N°</th>
+								<th style='width:2%'>N°</th>
+								<th style='width:10%'>PRENOM ET NOM</th>
+								<th style='width:15%'>FONCTION</th>
+								<th style='width:10%'>EMAIL</th>
+								<th style='width:10%' class='text-center'>Actions</th>
+							</tr>
+						</thead>
+						</tbody>
+						{% for m in users %}
+							<tr style="vertical-align: middle;">
+								<td hidden ></td>
+								<td>{{ forloop.counter }}</td>
+								<td>{% firstof m.nom %} {% firstof m.prenom %}</td>
+									<td style="vertical-align: middle;" >
+									<ul>
+										{% for group in m.groups.all %}
+											<li> {{ group.name|title }} </li>
+										{% endfor %}
+									</ul>
+									</td>
+								<td>{% firstof m.email %}</td>
+								<td class='text-center'>
+									<a class='btn btn-primary btn-sm' href="{% url 'accounts-edit' m.id %}"><i class='bi bi-pencil-square'></i></a> &nbsp; &nbsp;
+									<a style="padding-top:0px !important;
+									padding-bottom:0px !important;" class='btn btn-success btn-sm' href="{% url 'reset_password' m.id %}""><i class='fa fa-edit'></i>Reinitialiser le mot de passe</a> &nbsp; &nbsp;									
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock Content %}

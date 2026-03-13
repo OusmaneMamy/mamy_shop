@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block Content %}
+<div class='row'>
+	<div class='col-md-12'>
+		<div class='card'>
+			<div class='card-header'>
+				<div class='card-body'>
+				<div class='h5'>Formulaire de Modification </div>
+				<hr>
+				<form  enctype='multipart/form-data' method='post' class='px-2 row g-3'>
+					{% csrf_token %}
+					{{ form|crispy }}
+					<div class='col-md-2'>
+					<button class='btn btn-primary' type='submit'>Modifier</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block Script %}
+<script>
+	$(document).ready(function(){
+		$("#collapse").click(function(){
+            $(".accordion-collapse").addClass("show")
+            $(this).parent().hide()
+            $("#collapse1").parent().removeAttr("hidden")
+        })
+
+        $("#collapse1").click(function(){
+            $(this).parent().attr("hidden",true)
+            $("#collapse").parent().css("display","block")
+            $(".accordion-collapse").removeClass("show")            
+        })
+	})
+</script>
+{% endblock Script %}

@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="light" data-toggled="close">
+<head>
+<meta charset="UTF-8">
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title> Nowa </title>
+<meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+<meta name="Author" content="Spruko Technologies Private Limited">
+<meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
+<link rel="icon" href="assets/images/brand-logos/favicon.ico" type="image/x-icon">
+<script src="{% static 'assets/libs/choices.js/public/assets/scripts/choices.min.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+<link id="style" href="{% static 'assets/libs/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" >
+<link href="{% static 'assets/css/styles.min.css' %}" rel="stylesheet" >
+<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet" >
+<link href="{% static 'assets/libs/node-waves/waves.min.css' %}" rel="stylesheet" > 
+<link href="{% static 'assets/libs/simplebar/simplebar.min.css' %}" rel="stylesheet" >
+<link rel="stylesheet" href="{% static 'assets/libs/flatpickr/flatpickr.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/libs/@simonwep/pickr/themes/nano.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/libs/choices.js/public/assets/styles/choices.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/libs/jsvectormap/css/jsvectormap.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/libs/swiper/swiper-bundle.min.css' %}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" rel="stylesheet"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+<link href="{% static 'assets/css/toastify.css' %}" rel="stylesheet" />
+<link href="{% static 'awesome-notifications/style.css' %}" rel="stylesheet" />
+<script src="https://unpkg.com/htmx.org@1.9.2" integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous"></script>
+<!-- loader-->
+
+<style>
+    .card {
+			box-shadow: 
+          0px -0.5px 2px rgba(0, 0, 0, 0.2), 
+          1px 0px 1px rgba(0, 0, 0, 0.2),
+          0px 2px 2px rgba(0, 0, 0, 0.2), 
+          -1px 0px 1px rgba(0, 0, 0, 0.2);
+			border-radius: 4px;
+        }
+        li a span{
+            color:white !important;
+        }
+        li a i{
+            color:white !important;
+        }
+        .card .h5{
+            font-family: "Inter", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 100;
+            font-style: normal;
+            font-variation-settings:
+              "slnt" 0;
+          }
+        
+        input,select {
+            border: 1px solid #3A5992 !important;
+            font-weight:normal;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered{
+            border: 1px solid #3A5992 !important;
+            font-weight:normal;
+        }
+        .select2-container--default .select2-search--dropdown .select2-search__field{
+            border: 1px solid #C0C0C0 !important;
+            font-weight:normal;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered{
+            line-height:1.8rem !important;
+        }
+        .btn-sm{
+            height:25px;
+        }
+        thead tr td{
+            background:#17AFAC !important;
+            color:black !important;
+        }
+        
+        .app-header{
+            height:52px !important;
+            box-shadow:0px 2px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-sidebar-header{
+            height:52px !important;
+
+        }
+</style>
+</head>
+<body style="background:#e4e4e4" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <div class="page">
+
+    
+
+<div id="header-cart-items-scroll"></div>
+<div class="modal fade" tabindex="-1" id="delete" role="dialog">
+    <div class="modal-dialog">
+        <form id="form_delete"  method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Voulez-vous vraiment supprimer cette ligne ?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <input type="text" id="ventes_id" hidden name="ventes_id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                    <button type="submit" class="btn btn-primary">Oui</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% comment %} modal pour la prévalidation de l'etat de la tache {% url 'tache_prevalider'  %}{% endcomment %}
+{% comment %} <div class="modal fade" tabindex="-1" id="prevalider" role="dialog">
+    <div class="modal-dialog">
+        <form id="form_validate" method="POST" action="">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Voulez-vous changer l'état de la tache ?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Actuellement : 
+                        {% if taches.etat %}
+                            <strong>validé</strong>
+                        {% else %}
+                            <strong>En entente</strong>
+                        {% endif %}
+                    </p>
+                    <input type="hidden" name="slug" id="slug_tache_etat">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Prévalider</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div> {% endcomment %}
+
+{% comment %} modal {% url 'tache_valider'  %} pour la validation du statut apres la prévalidation de l'etat de la tache{% endcomment %}
+{% comment %} <div class="modal fade" tabindex="-1" id="valider" role="dialog">
+    <div class="modal-dialog">
+        <form id="form_validate" method="POST" action="">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Voulez-vous changer le statut de la  tache ?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Actuellement : 
+                        {% if taches.etat %}
+                            <strong>validé</strong>
+                        {% else %}
+                            <strong>En entente</strong>
+                        {% endif %}
+                    </p>
+                    <input type="hidden" name="slug" id="slug_tache_statut">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Valider</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div> {% endcomment %}
+
+
+

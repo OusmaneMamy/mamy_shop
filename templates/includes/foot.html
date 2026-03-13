@@ -1,0 +1,112 @@
+  {% load static %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+    <div class="scrollToTop">
+        <span class="arrow"><i class="ri-arrow-up-s-fill fs-20"></i></span>
+    </div>
+    <div id="responsive-overlay"></div>
+
+    <script src="{% static 'assets/libs/@popperjs/core/umd/popper.min.js' %}"></script>
+    <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/defaultmenu.min.js' %}"></script>
+    <script src="{% static 'assets/libs/node-waves/waves.min.js' %}"></script>
+    <script src="{% static 'assets/js/sticky.js' %}"></script>
+    <script src="{% static 'assets/libs/simplebar/simplebar.min.js' %}"></script>
+    <script src="{% static 'assets/js/simplebar.js' %}"></script>
+    <script src="{% static 'assets/libs/@simonwep/pickr/pickr.es5.min.js' %}"></script>
+    <script src="{% static 'assets/js/custom-switcher.min.js' %}"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.6/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="{% static 'awesome-notifications/index.var.js' %}"></script>
+    <script src="{% static 'assets/js/datatables.js' %}"></script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{% static 'assets/js/select2.js' %}"></script>
+    
+    <div id="modal" class="modal fade">
+        <div id="dialog" class="modal-dialog" hx-target="this">
+      
+        </div>
+      </div>
+
+
+<script>
+
+
+    $(document).on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    })
+
+    window.addEventListener("DOMContentLoaded", (e) => {
+        $('select').on('select2:select', function (e) {
+          htmx.trigger($(this).closest('select').get(0), 'change')
+        })
+      })
+
+    $(document).ready(function() {
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == "success" %}
+                       let notifier = new AWN().success('{{message|safe}}', {durations: {success: 2500}});
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        $('.champ').on("input", function() {
+            var selection = window.getSelection().toString();
+            if (selection !== '') {
+                return;
+            }
+            if ($.inArray(event.keyCode, [38, 40, 37, 39]) !== -1) {
+                return;
+            }
+            var $this = $(this);
+            var input = $this.val();
+            var input = input.replace(/[\D\s\._\-]+/g, "");
+            input = input ? parseInt(input, 10) : 0;
+            $this.val(function() {
+                return (input === 0) ? "0" : input.toLocaleString("en-US");
+            });
+        })
+
+        $('tbody').on('click', '.delete', function () {
+            href = $(this).attr('data-href')
+            $('#form_delete').attr('action', href)
+            console.log(href)
+        })
+
+        $('select').select2();
+    })
+
+    const modal = new bootstrap.Modal(document.getElementById("modal"))
+        htmx.on("htmx:afterSwap", (e) => {
+        if (e.detail.target.id == "dialog") {
+            modal.show()
+        }
+        })
+
+    htmx.on("htmx:beforeSwap", (e) => {
+        if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+            modal.hide()
+            e.detail.shouldSwap = false
+        }
+    })
+
+    htmx.on("hidden.bs.modal", () => {
+        document.getElementById("dialog").innerHTML = ""
+    })
+
+    document.body.addEventListener('htmx:configRequest', function(evt) {
+        evt.detail.headers['X-CSRFToken'] = '{{csrf_token}}';
+    });
+</script>
+</body>
+</html>

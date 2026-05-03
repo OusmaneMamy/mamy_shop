@@ -29,6 +29,7 @@ DEBUG = True
 # ALLOWED_HOSTS = []
 
 ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'localhost']
+# ALLOWED_HOSTS = ['*']
 
 
 
@@ -48,6 +49,12 @@ INSTALLED_APPS = [
 
     'accounts',
     'produits',
+    'tailles',
+    'couleurs',
+    'genres',
+    'produitVariations',
+    'ventes',
+    'achats',
 ]
 
 MIDDLEWARE = [
@@ -89,7 +96,7 @@ WSGI_APPLICATION = 'SBERRY.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mamyshop',
+        'NAME': 'mamy_shop',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',

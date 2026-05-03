@@ -9,12 +9,14 @@ class Account(AbstractUser):
     )
 
     
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='admin')
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='assistant')
     telephone = models.CharField(max_length=20, blank=True, null=True)
     adresse = models.CharField(max_length=255, blank=True, null=True)
     is_active_account = models.BooleanField(default=True)
 
-
+    
+    class Meta:
+        db_table = "accounts"
 
     def __str__(self):
         return f"{self.username} ({self.role})"

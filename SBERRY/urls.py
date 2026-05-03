@@ -19,6 +19,8 @@ from django.urls import path, include
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/accounts/', include('accounts.urls')),
@@ -26,6 +28,14 @@ urlpatterns = [
     # 🔐 JWT
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('api/', include('produits.urls')),
+    path('api/', include('tailles.urls')),
+    path('api/', include('couleurs.urls')),
+    path('api/', include('genres.urls')),
+    path('api/', include('produitVariations.urls')),
+    path('api/', include('ventes.urls')),
+    path('api/', include('achats.urls')),
 ]
 
 
